@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- 제이쿼리 임포트-->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.js"
+    ></script>
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
      <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -44,40 +42,47 @@
  
     </style>
     <script>
-      function get_dollar(){
-        $.ajax({
-                type: "GET",
-                url: "https://api.manana.kr/exchange/rate.json",
-                data: {},
-                success: function (response) {
-                    console.log(response)
-                }
-            });
-      };
       // 버튼 입력 시 나오는 알람
         function alert_empty(){
           let input_name = $('#name-input').val();
-          //let input_number = $('.input-number').val();
+          let input_number = $("#inputGroupSelect01 option:selected").val()
           let input_address = $('#input-address').val();
           let input_phone = $('#input-phone').val();
 
             if(input_name == ""){
               console.log("이름 누락")
               alert("이름을 입력해주세요");
-            // }else if(input_number == "--수량을 선택하세요--"){
-            //   console.log("갯수 누락")
-            //   alert("갯수를 선택해주세요");
+            }else if(input_number == "--수량을 선택하세요--"){
+              console.log("갯수 누락")
+               alert("수량을 선택해주세요");
             }else if(input_address == ""){
               console.log("주소 누락")
               alert("주소를 입력해주세요");
             }else if(input_phone == ""){
               console.log("번호 누락")
-              alert("번호를 입력해주세요");
-            } else(
-              console.log("읭")
-            )
+              alert("전화 번호를 입력해주세요");
+            } else{
+              alert("주문이 완료되었습니다.");
+              console.log("정상 주문")
+            }
             
         }
+
+        $(document).ready(function(){
+         // alert('다 로딩됐다!')
+          $.ajax({
+            type: 'get',
+            url: 'https://api.manana.kr/exchange/rate.json',
+            data: {},
+            success: function(response){
+                  console.log(response[1]["rate"]);
+                  let dollar_change = response[1]["rate"]+"$";
+                  $("#dollar").append(dollar_change);
+                }
+              })
+          });
+        
+  
     </script>
 </head>
 <body>
@@ -87,7 +92,7 @@
         <div class = "info">
         <h2>아이스 자몽 허니 블랙티   <span>가격:5,300원/개</span></h2>
         <p>새콤달콤한 자몽과 꿀이 깊고 그윽한 풍미의 스타벅스 티바나의 블랙 티와 만났습니다. 화려한 색감과 톡 쏘는 상큼함이 더해진 스타벅스의 새로운 티 음료입니다.</p>
-        <p>달러-원 환율: </p>
+        <p id = "dollar">달러-원 환율: </p>
         </div>
         <hr>
         <div class = "input">
@@ -102,10 +107,10 @@
               <label class="input-group-text" for="inputGroupSelect01">수량 선택</label>
             </div>
             <select class="custom-select" id="inputGroupSelect01">
-              <option selected class = "input-number">--수량을 선택하세요--</option>
-              <option value="1" class = "input-number">1</option>
-              <option value="2" class = "input-number">2</option>
-              <option value="3" class = "input-number">3</option>
+              <option selected>--수량을 선택하세요--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
             </select>
           </div>
         <div class="input-group mb-3">
