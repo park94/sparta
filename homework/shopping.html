@@ -47,7 +47,12 @@
           let input_name = $('#name-input').val();
           let input_number = $("#inputGroupSelect01 option:selected").val()
           let input_address = $('#input-address').val();
-          let input_phone = $('#input-phone').val();
+          let input_phone = $('#input-phone').val(); 
+          let first_dash = input_phone.includes("-",3) //->false
+          let second_dash = input_phone.includes("-",8) //->false
+          //010-4321-1094
+          //.includes( 'z', 3 ) -> 반환 : True
+            console.log(input_phone);
 
             if(input_name == ""){
               console.log("이름 누락")
@@ -58,10 +63,13 @@
             }else if(input_address == ""){
               console.log("주소 누락")
               alert("주소를 입력해주세요");
+            }else if(first_dash == false || second_dash == false){
+              console.log("번호 이상")
+              alert("알맞은 휴대폰 번호 양식이 아닙니다. 올바른 양식으로 입력해주세요.");
             }else if(input_phone == ""){
               console.log("번호 누락")
-              alert("전화 번호를 입력해주세요");
-            } else{
+              alert("휴대폰 번호를 입력해주세요");}
+            else{
               alert("주문이 완료되었습니다.");
               console.log("정상 주문")
             }
